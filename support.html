@@ -31,6 +31,7 @@
             padding: 0.3rem 0.6rem;
             border-radius: 1.2rem;
         }
+        .lang-switch button,
         .support-btn,
         .menu-btn {
             display: inline-flex;
@@ -54,6 +55,14 @@
             border: 1px solid #4A90E2;
         }
         .support-btn:hover { background: #4A90E2; color: white; }
+        .lang-switch button:not(.menu-btn) {
+            background: #4A90E2;
+            color: white;
+            border: none;
+        }
+        .lang-switch button:hover {
+            background: #3A7BC8;
+        }
         .menu-btn {
             background: transparent;
             color: #4A90E2;
@@ -261,6 +270,7 @@
         </div>
     </div>
     <a href="voyage.html" class="support-btn" data-zh="" data-en="Voyage Academy">致远塾</a>
+    <button id="langBtn" onclick="switchLanguage()">EN</button>
 </div>
 
     <div class="container">
@@ -368,6 +378,8 @@ We firmly believe that well-being science belongs to everyone. We welcome resear
 <script>
     // 语言切换（安全模式，不会因缺少按钮而中断）
     var currentLang = localStorage.getItem('lang') || 'zh';
+    var langBtn = document.getElementById('langBtn');
+
     function applyLanguage(lang) {
         document.querySelectorAll('[data-zh][data-en]').forEach(function(el) {
             var text = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
@@ -379,11 +391,19 @@ We firmly believe that well-being science belongs to everyone. We welcome resear
                 }
             }
         });
+
         // 切换菜单项文字
         document.querySelectorAll('.menu-item').forEach(function(el) {
             var text = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
             if (text) el.textContent = text;
         });
+
+        // 切换右上角语言按钮文字
+        if (langBtn) {
+            langBtn.textContent = lang === 'zh' ? 'EN' : '中文';
+        }
+
+        localStorage.setItem('lang', lang);
     }
     // 页面加载时应用一次语言
     applyLanguage(currentLang);
